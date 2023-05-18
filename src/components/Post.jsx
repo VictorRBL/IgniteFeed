@@ -2,37 +2,33 @@ import styles from "./Post.module.css";
 import { Comment } from "./Comment";
 import { Avatar } from "./Avatar";
 
-export function Post() {
+export function Post({ publishedAt, author, content }) {
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <Avatar hasBorder={true} src="http://github.com/victorrbl.png" />
+          <Avatar hasBorder={true} src={author.avatarUrl} />
           <div className={styles.avatarInfo}>
-            <strong>Victor Rocha</strong>
-            <p>Web Developer</p>
+            <strong>{author.name}</strong>
+            <p>{author.role}</p>
           </div>
         </div>
         <time title="11 de maio as 20:15" dateTime="2023-05-11 20:05:33">
-          publicado há 1 hora
+          {publishedAt.toString()}
         </time>
       </header>
 
       <div className={styles.content}>
-        <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos nulla,
-          reiciendis aliquid sunt assumenda voluptatibus ex fuga odit mollitia.
-          Atque maxime reiciendis alias placeat optio error molestias nam iure
-          similique.
-        </p>
-        <p>
-          <a href="#">link pra algum lugar que eu nao sei</a>{" "}
-        </p>
-        <p>
-          <a href="#">#igniteFeed</a>
-        </p>
+        {content.map((cont) => {
+          if (cont.type === "paragraph") return <p>{cont.content}</p>;
+          if (cont.type === "link")
+            return (
+              <p>
+                <a href="#">{cont.content}</a>
+              </p>
+            );
+        })}
       </div>
-
       <form className={styles.form}>
         <strong>Deixe aqui seu comentario</strong>
         <textarea placeholder="Digite aqui seu comentário" />
