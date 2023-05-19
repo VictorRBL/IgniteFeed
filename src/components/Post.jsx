@@ -13,6 +13,12 @@ export function Post({ publishedAt, author, content }) {
     setNewComment("");
   }
 
+  function deleteCommentFn(comm) {
+    const commentsPosDeletion = comment.filter((x) => x !== comm);
+    console.log(commentsPosDeletion);
+    setComment(commentsPosDeletion);
+  }
+
   return (
     <article className={styles.post}>
       <header>
@@ -30,10 +36,11 @@ export function Post({ publishedAt, author, content }) {
 
       <div className={styles.content}>
         {content.map((cont) => {
-          if (cont.type === "paragraph") return <p>{cont.content}</p>;
+          if (cont.type === "paragraph")
+            return <p key={cont.content}>{cont.content}</p>;
           if (cont.type === "link")
             return (
-              <p>
+              <p key={cont.content}>
                 <a href="#">{cont.content}</a>
               </p>
             );
@@ -54,7 +61,11 @@ export function Post({ publishedAt, author, content }) {
 
       <div className={styles.commentList}>
         {comment.map((comm) => (
-          <Comment content={comm} />
+          <Comment
+            key={comm}
+            content={comm}
+            onDeleteComment={deleteCommentFn}
+          />
         ))}
       </div>
     </article>
